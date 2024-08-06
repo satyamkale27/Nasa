@@ -1,11 +1,11 @@
 {
   "name": "Nasa-project-api",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "src/server.js",
   "scripts": {
-    "watch" : "nodemon server.js",
+    "watch": "nodemon src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "src/server.js"
   },
   "keywords": [],
   "author": "",
