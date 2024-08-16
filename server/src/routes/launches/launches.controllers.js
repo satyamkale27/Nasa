@@ -33,11 +33,12 @@ function httpAddNewLaunch(req, res) {
 function httpAbortLaunch(req, res) {
   const launchId = Number(req.params.id); // string to number converted because to delete launch number required we have string //
   // if launch doesnt exist //
-  if (!existsLaunchWithId(launchId)) {
-    return res.status(404).json({
-      error: "Launch not found",
-    });
-  }
+  // if (!existsLaunchWithId(launchId)) {
+  //   return res.status(404).json({
+  //     error: "Launch not found",
+  //   });
+  // }
+  res.status(200).json(existsLaunchWithId(launchId));
 
   // if launch does  exists //
   const aborted = abortLaunchById(launchId);
