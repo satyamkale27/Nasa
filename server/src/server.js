@@ -1,5 +1,5 @@
 const http = require("http");
-const mongoose = require("mongose");
+const mongoose = require("mongoose");
 const app = require("./app");
 const PORT = process.env.PORT || 8000;
 const MONGO_URL =
@@ -17,12 +17,7 @@ mongoose.connection.on("open", () => {
 });
 
 async function startServer() {
-  await mongoose.connect(MONGO_URL, {
-    useNewUrlParser: true,
-    useFindAndModify: false,
-    useCreateIndex: true,
-    useUnifiedTipology: true,
-  });
+  await mongoose.connect(MONGO_URL);
   await loadPlanetData();
   server.listen(PORT, () => {
     console.log(`Listening on ${PORT}...`);
