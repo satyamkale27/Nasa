@@ -24,7 +24,7 @@ function loadPlanetData() {
           columns: true,
         })
       )
-      .on("data", async (data) => {
+      .on("data", (data) => {
         if (isHabitablePlanet(data)) {
           savePlanets(data);
         }
