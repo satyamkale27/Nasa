@@ -1,4 +1,5 @@
 const launchesDatabase = require("./launches.mongo");
+const Validateplanets = require("./planets.mongo"); // import to validate the planet before launch //
 const launches = new Map();
 let latestFlightNumber = 100;
 const launch = {
@@ -6,7 +7,7 @@ const launch = {
   mission: "keepler Exploration X",
   rocket: "Explorer IS1",
   launchDate: new Date("December 27, 2030"),
-  target: "kepler-442 b",
+  target: "Kepler-442 b",
   customer: ["SATYAM", "NASA"],
   upcoming: true,
   success: true,
@@ -29,6 +30,14 @@ async function getAllLaunches() {
   ); // {} meanse find all document in mongodb //
 }
 async function saveLaunch(launch) {
+  // function prevents the launch at planet which do not exists in data base //
+  const planet = await Validateplanets.findOne({
+    keplerName: launch.target,
+  });
+
+  if (!planet) {
+    throw new Error("No matching planet was found");
+  }
   await launchesDatabase.updateOne(
     {
       flightNumber: launch.flightNumber,
