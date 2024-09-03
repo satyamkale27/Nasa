@@ -1,7 +1,9 @@
 const launchesDatabase = require("./launches.mongo");
 const Validateplanets = require("./planets.mongo"); // import to validate the planet before launch //
+const DEFAULT_FLIGHT_NUMBER = 100;
+
 const launches = new Map();
-let latestFlightNumber = 100;
+
 const launch = {
   flightNumber: 100,
   mission: "keepler Exploration X",
@@ -18,6 +20,15 @@ saveLaunch(launch);
 //launches.set(launch.flightNumber, launch);
 function existsLaunchWithId(launchId) {
   return launches.has(launchId);
+}
+
+async function getLatestFlightNumber() {
+  // .sort() moongose functionality here  //
+  const latestLaunch = await launchesDatabase.findOne().sort("-flightNumber"); // for latest launch we need to sort in decending order do (-) //
+  return latestLaunch.flightNumber;
+  if (!latestLaunch) {
+    return DEFAULT_FLIGHT_NUMBER;
+  }
 }
 
 async function getAllLaunches() {
@@ -49,18 +60,31 @@ async function saveLaunch(launch) {
   );
 }
 
-function addNewLaunch(launch) {
-  latestFlightNumber++;
-  launches.set(
-    latestFlightNumber,
-    Object.assign(launch, {
-      success: true,
-      upcoming: true,
-      customer: ["Satyam kale, NASA"],
-      flightNumber: latestFlightNumber,
-    })
-  );
+async function scheduleNewLaunch(launch) {
+  const newFlighrNumber = (await getLatestFlightNumber()) + 1; // get latest flight number from database and increse by 1 //
+  const newLaunch = Object.assign(launch, {
+    success: true,
+    upcoming: true,
+    customer: ["Satyam kale, NASA"],
+    flightNumber: newFlighrNumber,
+  });
+
+  await saveLaunch(newLaunch);
 }
+
+// function addNewLaunch(launch) {
+//   latestFlightNumber++;
+//   launches.set(
+//     latestFlightNumber,
+//     Object.assign(launch, {
+//       success: true,
+//       upcoming: true,
+//       customer: ["Satyam kale, NASA"],
+//       flightNumber: latestFlightNumber,
+//     })
+//   );
+// }
+
 function abortLaunchById(launchId) {
   const aborted = launches.get(launchId);
   aborted.upcoming = false;
@@ -71,6 +95,6 @@ function abortLaunchById(launchId) {
 module.exports = {
   existsLaunchWithId,
   getAllLaunches,
-  addNewLaunch,
+  scheduleNewLaunch,
   abortLaunchById,
 };
