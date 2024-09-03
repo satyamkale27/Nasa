@@ -25,10 +25,10 @@ function existsLaunchWithId(launchId) {
 async function getLatestFlightNumber() {
   // .sort() moongose functionality here  //
   const latestLaunch = await launchesDatabase.findOne().sort("-flightNumber"); // for latest launch we need to sort in decending order do (-) //
-  return latestLaunch.flightNumber;
   if (!latestLaunch) {
     return DEFAULT_FLIGHT_NUMBER;
   }
+  return latestLaunch.flightNumber;
 }
 
 async function getAllLaunches() {
@@ -71,19 +71,6 @@ async function scheduleNewLaunch(launch) {
 
   await saveLaunch(newLaunch);
 }
-
-// function addNewLaunch(launch) {
-//   latestFlightNumber++;
-//   launches.set(
-//     latestFlightNumber,
-//     Object.assign(launch, {
-//       success: true,
-//       upcoming: true,
-//       customer: ["Satyam kale, NASA"],
-//       flightNumber: latestFlightNumber,
-//     })
-//   );
-// }
 
 function abortLaunchById(launchId) {
   const aborted = launches.get(launchId);
