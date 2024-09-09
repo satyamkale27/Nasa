@@ -2,8 +2,6 @@ const launchesDatabase = require("./launches.mongo");
 const Validateplanets = require("./planets.mongo"); // import to validate the planet before launch //
 const DEFAULT_FLIGHT_NUMBER = 100;
 
-const launches = new Map();
-
 const launch = {
   flightNumber: 100,
   mission: "keepler Exploration X",
@@ -17,9 +15,10 @@ const launch = {
 
 saveLaunch(launch);
 
-//launches.set(launch.flightNumber, launch);
-function existsLaunchWithId(launchId) {
-  return launches.has(launchId);
+async function existsLaunchWithId(launchId) {
+  return await launchesDatabase.findOne({
+    flightNumber: launchId,
+  });
 }
 
 async function getLatestFlightNumber() {
@@ -72,11 +71,18 @@ async function scheduleNewLaunch(launch) {
   await saveLaunch(newLaunch);
 }
 
-function abortLaunchById(launchId) {
-  const aborted = launches.get(launchId);
-  aborted.upcoming = false;
-  aborted.success = false;
-  return aborted;
+async function abortLaunchById(launchId) {
+  const aborted = await launchesDatabase.updateOne(
+    {
+      flightNumber: launchId,
+    },
+    {
+      upcoming: false,
+      success: false,
+    }
+  ); // no upsert becuase we donot want to insert if it does not exists, we want to just update //
+
+  if (aborted.modifiedCount === 1) return true;
 }
 
 module.exports = {
