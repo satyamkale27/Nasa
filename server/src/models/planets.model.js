@@ -55,6 +55,10 @@ async function getAllPlanets() {
 async function savePlanets(planet) {
   try {
     await planets.updateOne(
+      //  The updateOne method takes three arguments:
+      // The first argument is a filter object that specifies the criteria for selecting the document to update. In this case, it uses the keplerName field from the planet object to find the matching document.
+      // The second argument is an update object that specifies the changes to be made to the selected document. In this case, it sets the keplerName field to the value from the planet object.
+      // The third argument is an options object that specifies additional options for the update operation. In this case, it uses the upsert option set to true, which means that if no matching document is found, a new document will be created.
       {
         keplerName: planet.kepler_name,
       },
