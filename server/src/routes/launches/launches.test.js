@@ -1,10 +1,14 @@
 const request = require("supertest");
 const app = require("../../app");
-const { mongoConnect } = require("../../services/mongo");
+const { mongoConnect, mongoDisconnect } = require("../../services/mongo");
 
 describe("Launches API", () => {
   beforeAll(async () => {
     await mongoConnect(); // connect mongo before all //
+  });
+
+  afterAll(async () => {
+    await mongoDisconnect();
   });
 
   describe("Test GET /launches", () => {
@@ -19,19 +23,19 @@ describe("Launches API", () => {
     const completeLaunchData = {
       mission: "antriksh",
       rocket: "NCC 1701-D",
-      target: "kepler-186 f",
+      target: "Kepler-62 f",
       launchDate: "january 4 2028",
     };
     const launchDataWithoutDate = {
       mission: "antriksh",
       rocket: "NCC 1701-D",
-      target: "kepler-186 f",
+      target: "Kepler-62 f",
     };
 
     const launchDatawithInvalidDate = {
       mission: "antriksh",
       rocket: "NCC 1701-D",
-      target: "kepler-186 f",
+      target: "Kepler-62 f",
       launchDate: "Boom",
     };
 

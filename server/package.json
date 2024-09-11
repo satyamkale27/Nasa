@@ -4,7 +4,7 @@
   "main": "src/server.js",
   "scripts": {
     "watch": "nodemon src/server.js",
-    "test": "jest",
+    "test": "jest --detectOpenHandles",
     "test-watch": "jest --watch",
     "start": "node src/server.js",
     "cluster": "pm2 start src/server.js -i max"
@@ -13,7 +13,7 @@
   "author": "",
   "license": "ISC",
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment ": "node"
   },
   "description": "Nasa Mission control Api",
   "dependencies": {
