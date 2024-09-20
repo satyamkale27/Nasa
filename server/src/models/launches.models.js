@@ -71,6 +71,10 @@ async function scheduleNewLaunch(launch) {
   await saveLaunch(newLaunch);
 }
 
+async function loadLaunchData() {
+  console.log("loading data ....");
+}
+
 async function abortLaunchById(launchId) {
   const aborted = await launchesDatabase.updateOne(
     {
@@ -86,6 +90,7 @@ async function abortLaunchById(launchId) {
 }
 
 module.exports = {
+  loadLaunchData,
   existsLaunchWithId,
   getAllLaunches,
   scheduleNewLaunch,
