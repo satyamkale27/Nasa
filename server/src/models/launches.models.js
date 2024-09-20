@@ -77,6 +77,7 @@ async function scheduleNewLaunch(launch) {
 async function loadLaunchData() {
   console.log("Downloading launch data ....");
   const response = await axios.post(SPACEX_API_URL, {
+    // by post  request we specify more parameters to get specfic data, which is not possible in only get request. so post method sometimes can b used to get data by specifiying queries//
     query: {},
     options: {
       populate: [
