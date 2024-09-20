@@ -96,6 +96,26 @@ async function loadLaunchData() {
       ],
     },
   });
+  const launchDocs = response.data.docs; // responce comes in form or array docs check postman por more //
+
+  for (const launchdoc of launchDocs) {
+    // loops the launchDocs array which we got from response //
+
+    const payloads = launchdoc["payloads"]; // to get the payloads from data //
+    const customers = payloads.flatMap((payload) => {
+      return payload["customers"]; // nested customers in payload will convert into list in single array by the method //
+    });
+    const launch = {
+      flightNumber: launchdoc["flight_number"],
+      mission: launchdoc["name"],
+      rocket: launchdoc["rocket"]["name"],
+      launchDate: launchdoc["date_local"],
+      upcoming: launchdoc["upcoming"],
+      success: launchdoc["success"],
+      customer: customers,
+    };
+    console.log(`${launch.flightNumber} ${launch.mission}`);
+  }
 }
 
 async function abortLaunchById(launchId) {
