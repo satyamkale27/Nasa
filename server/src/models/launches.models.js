@@ -47,14 +47,6 @@ async function getAllLaunches() {
   ); // {} meanse find all document in mongodb //
 }
 async function saveLaunch(launch) {
-  // function prevents the launch at planet which do not exists in data base //
-  const planet = await Validateplanets.findOne({
-    keplerName: launch.target,
-  });
-
-  if (!planet) {
-    throw new Error("No matching planet was found");
-  }
   await launchesDatabase.updateOne(
     {
       flightNumber: launch.flightNumber,
@@ -67,6 +59,15 @@ async function saveLaunch(launch) {
 }
 
 async function scheduleNewLaunch(launch) {
+  //  prevents the launch at planet which do not exists in data base //
+  const planet = await Validateplanets.findOne({
+    keplerName: launch.target,
+  });
+
+  if (!planet) {
+    throw new Error("No matching planet was found");
+  }
+
   const newFlighrNumber = (await getLatestFlightNumber()) + 1; // get latest flight number from database and increse by 1 //
   const newLaunch = Object.assign(launch, {
     success: true,
@@ -120,7 +121,7 @@ async function populateLaunches() {
       customer: customers,
     };
     console.log(`${launch.flightNumber} ${launch.mission}`);
-    // populate launches collection ... //
+    await saveLaunch(launch);
   }
 }
 
