@@ -80,6 +80,7 @@ async function loadLaunchData() {
     // by post  request we specify more parameters to get specfic data, which is not possible in only get request. so post method sometimes can b used to get data by specifiying queries//
     query: {},
     options: {
+      pagination: false,
       populate: [
         {
           path: "rocket",
