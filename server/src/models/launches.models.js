@@ -102,6 +102,10 @@ async function populateLaunches() {
       ],
     },
   });
+  if (response.status !== 200) {
+    console.log("Problem downloading launchdata");
+    throw new Error("Launch data download failed");
+  }
   const launchDocs = response.data.docs; // responce comes in form or array docs check postman por more //
 
   for (const launchdoc of launchDocs) {
