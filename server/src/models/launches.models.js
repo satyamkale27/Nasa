@@ -37,14 +37,17 @@ async function getLatestFlightNumber() {
   return latestLaunch.flightNumber;
 }
 
-async function getAllLaunches() {
-  return await launchesDatabase.find(
-    {},
-    {
-      _id: 0,
-      __v: 0,
-    }
-  ); // {} meanse find all document in mongodb //
+async function getAllLaunches(skip, limit) {
+  return await launchesDatabase
+    .find(
+      {},
+      {
+        _id: 0,
+        __v: 0,
+      }
+    ) // {} meanse find all document in mongodb //
+    .skip(skip) // skips the no of frist documents passed in function //
+    .limit(limit); // limits the no of document passed in  the function //
 }
 async function saveLaunch(launch) {
   await launchesDatabase.updateOne(
