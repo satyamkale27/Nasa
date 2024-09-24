@@ -1,4 +1,5 @@
 const http = require("http");
+require("dotenv").config(); // to use credentails from .env // // always use it on top for other imports can use it //
 const app = require("./app");
 const { mongoConnect } = require("./services/mongo");
 const { loadPlanetData } = require("./models/planets.model");
