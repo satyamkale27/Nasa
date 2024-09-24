@@ -46,6 +46,7 @@ async function getAllLaunches(skip, limit) {
         __v: 0,
       }
     ) // {} meanse find all document in mongodb //
+    .sort({ flightNumber: 1 }) // to get the documents in sequence assending order //
     .skip(skip) // skips the no of frist documents passed in function //
     .limit(limit); // limits the no of document passed in  the function //
 }
