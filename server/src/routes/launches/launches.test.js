@@ -1,10 +1,12 @@
 const request = require("supertest");
 const app = require("../../app");
 const { mongoConnect, mongoDisconnect } = require("../../services/mongo");
+const { loadPlanetData } = require("../../models/planets.model");
 
 describe("Launches API", () => {
   beforeAll(async () => {
     await mongoConnect(); // connect mongo before all //
+    await loadPlanetData(); // loads planets data befor testing // because loadplanetsData() is in server.js and in here in test server.js do not get called or starts so we call loadplanetsData manually //
   });
 
   afterAll(async () => {
